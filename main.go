@@ -10,6 +10,7 @@ import (
 func main() {
 
 	// TODO: CMD line args handling
+	args := os.Args
 
 	// Testing banner
 	reader, err := fs.ReadFile(os.DirFS("./banners"), "standard.txt")
@@ -20,12 +21,25 @@ func main() {
 	// Formate banner file
 	asciiart.BannerFmt(reader)
 
-	// Test string
-	s := "Hello$%^Ali123456789"
+	// Handle "" && "\n"
+	if args[1] == "" {
+		return
+	} else if args[1] == "\\n" {
+		fmt.Println()
+		return
+	}
 
+	// Text to print
+	withNewLine := asciiart.NewLineCheck(args[1])
+	if withNewLine {
+		asciiart.SepAtNL(args[1])
+		return
+
+	}
 	// Test string preparation, formating and printing
+	s := args[1]
 	asciiart.Indexer(s)
-	fmtTxt := asciiart.LineFmt(asciiart.Indx)
-	asciiart.Printer(fmtTxt)
+	asciiart.LineFmt(asciiart.Indx)
+	asciiart.Printer(asciiart.Words)
 
 }

@@ -3,10 +3,11 @@ package asciiart
 import (
 	"bytes"
 	"fmt"
+	"strings"
 )
 
 var Chars [][]byte
-var Word [][]byte
+var Words [][]byte
 var Indx []int
 
 // Create a new [][]byte from banner into Chars
@@ -35,14 +36,13 @@ func Location(r rune) (s int, e int) {
 	locS := (int(r) - 32) * 8
 	locE := locS + 8
 
-	fmt.Println("r: ", r, " s: ", locS, " e: ", locE)
+	//fmt.Println("r: ", r, " s: ", locS, " e: ", locE)
 	return locS, locE
 }
 
 // create a new [][]byte of string (word) for printing
 // // by appending each line of char byte slice into one []byte
-func LineFmt(indx []int) [][]byte {
-	var text [][]byte
+func LineFmt(indx []int) {
 	for i := 0; i < 8; i++ {
 		var line []byte
 		for _, item := range indx {
@@ -50,9 +50,9 @@ func LineFmt(indx []int) [][]byte {
 			line = append(line, slice...)
 		}
 		line = append(line, byte('\n'))
-		text = append(text, line)
+		Words = append(Words, line)
 	}
-	return text
+	fmt.Println("anything happening here?")
 }
 
 func Printer(Text [][]byte) {
@@ -61,4 +61,29 @@ func Printer(Text [][]byte) {
 			fmt.Printf("%s", string(char))
 		}
 	}
+}
+
+func NewLineCheck(s string) bool {
+	for i, char := range s {
+		if char == '\\' {
+			if s[i+1] == 'n' {
+				return true
+			}
+		}
+
+	}
+	return false
+}
+
+func SepAtNL(s string) {
+	separated := strings.Split(s, "\\n")
+	for _, item := range separated {
+		if item == "" {
+			continue
+		}
+		Indexer(item)
+		LineFmt(Indx)
+		Indx = nil
+	}
+	Printer(Words)
 }
