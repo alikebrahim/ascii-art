@@ -7,13 +7,13 @@ import (
 )
 
 var Chars [][]byte
-var Words [][]byte
+var Words []byte
 var Indx []int
 
 // Create a new [][]byte from banner into Chars
-// // excluding new lines in original banner file
+// // case standard & shadow banners
 func BannerFmt(r []byte) {
-	split := bytes.Split(r, []byte("\n"))
+	split := bytes.Split(r, []byte("\n")) // create banner split on new lines
 
 	for _, line := range split {
 		if len(line) == 0 {
@@ -21,6 +21,28 @@ func BannerFmt(r []byte) {
 		}
 		Chars = append(Chars, line)
 	}
+}
+
+func BannerFmtTT(r []byte) {
+	split := bytes.Split(r, []byte("\r")) // create banner split on carriage returns
+
+	for _, line := range split {
+		if len(line) == 0 {
+			continue
+		}
+		Chars = append(Chars, line)
+	}
+	newBannerFMT := ReformatTT(Chars) // copy banner split on carriage return from Chars (type [][]byte) into []byte
+	Chars = nil // empty Chars (prepare to repopulate)
+	BannerFmt(newBannerFMT) // repopulate Chars with banner split on new lines
+}
+
+func ReformatTT(chars [][]byte) []byte {
+	var ssB []byte
+	for _, line := range chars {
+		ssB = append(ssB, line...)
+	}
+	return ssB
 }
 
 // locate first line index for each char in string (word)
@@ -50,16 +72,15 @@ func LineFmt(indx []int) {
 			line = append(line, slice...)
 		}
 		line = append(line, byte('\n'))
-		Words = append(Words, line)
+		Words = append(Words, line...)
 	}
-	fmt.Println("anything happening here?")
 }
 
-func Printer(Text [][]byte) {
-	for _, line := range Text {
-		for _, char := range line {
-			fmt.Printf("%s", string(char))
-		}
+func Printer(Text []byte) {
+	for _, char := range Text {
+		fmt.Printf("%s", string(char))
+		// for _, char := range line {
+		// }
 	}
 }
 

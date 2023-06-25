@@ -13,13 +13,25 @@ func main() {
 	args := os.Args
 
 	// Testing banner
-	reader, err := fs.ReadFile(os.DirFS("./banners"), "standard.txt")
+	reader, err := fs.ReadFile(os.DirFS("./banners"), "thinkertoy.txt")
 	if err != nil {
 		fmt.Println("Error Opening File")
 	}
 
 	// Formate banner file
-	asciiart.BannerFmt(reader)
+	// if args[1] == "thinkertoy" {
+	// 	asciiart.BannerFmtTT(reader)
+		
+	// 	} else {
+			
+	// 		asciiart.BannerFmt(reader)
+	// }
+	asciiart.BannerFmtTT(reader)
+	// for _, line := range asciiart.Chars {
+	// 	fmt.Println(line)
+	// }
+	// return
+	
 
 	// Handle "" && "\n"
 	if args[1] == "" {
