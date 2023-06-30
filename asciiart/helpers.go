@@ -50,11 +50,12 @@ func ReformatTT(chars [][]byte) []byte {
 func AsciiPrep(s string) {
 	words := Stob(s)
 	for i, slice := range words {
-		if len(slice) == 1 {
-			if len(words[i+1]) == 1 {
+		if  len(slice) == 1 {
+			if len(words[i+1]) == 1  {
+				Text = append(Text, []byte("\n"))
 				continue
-			}
-			Text = append(Text, []byte("\n"))
+			} 
+			// Text = append(Text, []byte("\n"))
 			Indx = nil
 			continue
 		}
@@ -129,9 +130,5 @@ func Stob(s string) [][]byte {
 		bline = append(bline, byte(item))
 	}
 	bslice = append(bslice, bline)
-	for i, item := range bslice {
-		fmt.Println(i, " >> ", item, " >> ", string(item))
-	}
-	fmt.Println(bslice)
 	return bslice
 }
