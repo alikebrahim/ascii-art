@@ -50,7 +50,7 @@ func ReformatTT(chars [][]byte) []byte {
 func AsciiPrep(s string) {
 	words := Stob(s)
 	for i, slice := range words {
-		if  len(slice) == 1 {
+		if len(slice) == 1 {
 			if len(words[i+1]) == 1  {
 				Text = append(Text, []byte("\n"))
 				continue
