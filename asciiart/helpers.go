@@ -3,11 +3,10 @@ package asciiart
 import (
 	"bytes"
 	"fmt"
-	"strings"
 )
 
 var Chars [][]byte
-var Words []byte
+var Text [][]byte
 var Indx []int
 
 // Create a new [][]byte from banner into Chars
@@ -23,6 +22,7 @@ func BannerFmt(r []byte) {
 	}
 }
 
+// special BannerFormat for thinkertoy banner
 func BannerFmtTT(r []byte) {
 	split := bytes.Split(r, []byte("\r")) // create banner split on carriage returns
 
@@ -33,10 +33,11 @@ func BannerFmtTT(r []byte) {
 		Chars = append(Chars, line)
 	}
 	newBannerFMT := ReformatTT(Chars) // copy banner split on carriage return from Chars (type [][]byte) into []byte
-	Chars = nil // empty Chars (prepare to repopulate)
-	BannerFmt(newBannerFMT) // repopulate Chars with banner split on new lines
+	Chars = nil                       // empty Chars (prepare to repopulate)
+	BannerFmt(newBannerFMT)           // repopulate Chars with banner split on new lines
 }
 
+// Prepare thinkertoy banner
 func ReformatTT(chars [][]byte) []byte {
 	var ssB []byte
 	for _, line := range chars {
@@ -45,20 +46,38 @@ func ReformatTT(chars [][]byte) []byte {
 	return ssB
 }
 
-// locate first line index for each char in string (word)
-func Indexer(s string) {
-	for _, char := range s {
-		s, _ := Location(char)
-		Indx = append(Indx, s)
+// Main text preparation and printing function
+func AsciiPrep(s string) {
+	words := Stob(s)
+	for i, slice := range words {
+		if len(slice) == 1 {
+			if len(words[i+1]) == 1 {
+				continue
+			}
+			Text = append(Text, []byte("\n"))
+			Indx = nil
+			continue
+		}
+		for _, char := range slice {
+			Indexer(char)
+		}
+		LineFmt(Indx)
+
 	}
+	Printer(Text)
+}
+
+// locate first line index for each char in string (word)
+func Indexer(b byte) {
+	s, _ := Location(b)
+	Indx = append(Indx, s)
 }
 
 // Locate StartingIndex:EndingIndex for each char
-func Location(r rune) (s int, e int) {
-	locS := (int(r) - 32) * 8
+func Location(b byte) (s int, e int) {
+	locS := (int(b) - 32) * 8
 	locE := locS + 8
 
-	//fmt.Println("r: ", r, " s: ", locS, " e: ", locE)
 	return locS, locE
 }
 
@@ -72,39 +91,47 @@ func LineFmt(indx []int) {
 			line = append(line, slice...)
 		}
 		line = append(line, byte('\n'))
-		Words = append(Words, line...)
+		Text = append(Text, line)
 	}
 }
 
-func Printer(Text []byte) {
-	for _, char := range Text {
-		fmt.Printf("%s", string(char))
-		// for _, char := range line {
-		// }
+func Printer(Text [][]byte) {
+	for _, line := range Text {
+		for _, char := range line {
+			fmt.Printf("%s", string(char))
+		}
 	}
 }
 
-func NewLineCheck(s string) bool {
-	for i, char := range s {
-		if char == '\\' {
+// Convert string input to [][]byte
+func Stob(s string) [][]byte {
+	var bslice [][]byte
+	var bline []byte
+	for i, item := range s {
+		if item == '\\' {
 			if s[i+1] == 'n' {
-				return true
+				if bline != nil {
+
+					bslice = append(bslice, bline)
+				}
+				bline = nil
+				bline = append(bline, byte(10))
+				bslice = append(bslice, bline)
+				bline = nil
+				continue
 			}
 		}
-
-	}
-	return false
-}
-
-func SepAtNL(s string) {
-	separated := strings.Split(s, "\\n")
-	for _, item := range separated {
-		if item == "" {
-			continue
+		if item == 'n' {
+			if s[i-1] == '\\' {
+				continue
+			}
 		}
-		Indexer(item)
-		LineFmt(Indx)
-		Indx = nil
+		bline = append(bline, byte(item))
 	}
-	Printer(Words)
+	bslice = append(bslice, bline)
+	for i, item := range bslice {
+		fmt.Println(i, " >> ", item, " >> ", string(item))
+	}
+	fmt.Println(bslice)
+	return bslice
 }
