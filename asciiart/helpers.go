@@ -49,16 +49,21 @@ func ReformatTT(chars [][]byte) []byte {
 // Main text preparation and printing function
 func AsciiPrep(s string) {
 	words := Stob(s)
+	fmt.Println(words)
 	for i, slice := range words {
-		if len(slice) == 1 {
-			if len(words[i+1]) == 1  {
+		if slice[0] == 10 {
+			if words[i-1][0] == 10 {
+				fmt.Println("slice[0]: ", slice[0])
 				Text = append(Text, []byte("\n"))
+				Indx = nil
 				continue
-			} 
-			// Text = append(Text, []byte("\n"))
-			Indx = nil
-			continue
+			} else {
+				Indx = nil
+				continue
+			}
+
 		}
+		fmt.Println("@i: ", i, " slice: ", slice)
 		for _, char := range slice {
 			Indexer(char)
 		}
@@ -129,6 +134,9 @@ func Stob(s string) [][]byte {
 		}
 		bline = append(bline, byte(item))
 	}
-	bslice = append(bslice, bline)
+	if bline != nil {
+
+		bslice = append(bslice, bline)
+	}
 	return bslice
 }

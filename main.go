@@ -19,13 +19,7 @@ func main() {
 	}
 
 	// Formate banner file
-	if len(args) > 2 && args[2] == "thinkertoy" {
-		asciiart.BannerFmtTT(reader)
-
-	} else {
-
-		asciiart.BannerFmt(reader)
-	}
+	asciiart.BannerFmtTT(reader)
 
 	// Handle "" && "\n"
 	if args[1] == "" {
