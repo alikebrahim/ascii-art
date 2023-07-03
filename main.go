@@ -11,6 +11,11 @@ func main() {
 
 	// TODO: CMD line args handling
 	args := os.Args
+	if len(args) != 3 {
+		fmt.Println("Usage: go run . [STRING] [BANNER]")
+		fmt.Println("EX: go run . something standard")
+		return
+	}
 	bannerFile := args[2] + ".txt"
 
 	// Testing banner
