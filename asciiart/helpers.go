@@ -11,7 +11,7 @@ var Indx []int
 
 // Create a new [][]byte from banner into Chars
 // // case standard & shadow banners
-func BannerFmt(r []byte) {
+func BannerReFmt(r []byte) {
 	split := bytes.Split(r, []byte("\n")) // create banner split on new lines
 
 	for _, line := range split {
@@ -23,7 +23,7 @@ func BannerFmt(r []byte) {
 }
 
 // special BannerFormat for thinkertoy banner
-func BannerFmtTT(r []byte) {
+func BannerFmt(r []byte) {
 	split := bytes.Split(r, []byte("\r")) // create banner split on carriage returns
 
 	for _, line := range split {
@@ -34,7 +34,7 @@ func BannerFmtTT(r []byte) {
 	}
 	newBannerFMT := ReformatTT(Chars) // copy banner split on carriage return from Chars (type [][]byte) into []byte
 	Chars = nil                       // empty Chars (prepare to repopulate)
-	BannerFmt(newBannerFMT)           // repopulate Chars with banner split on new lines
+	BannerReFmt(newBannerFMT)           // repopulate Chars with banner split on new lines
 }
 
 // Prepare thinkertoy banner

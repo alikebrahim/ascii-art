@@ -11,15 +11,16 @@ func main() {
 
 	// TODO: CMD line args handling
 	args := os.Args
+	bannerFile := args[2] + ".txt"
 
 	// Testing banner
-	reader, err := fs.ReadFile(os.DirFS("./banners"), "standard.txt")
+	reader, err := fs.ReadFile(os.DirFS("./banners"), bannerFile)
 	if err != nil {
 		fmt.Println("Error Opening File")
 	}
 
 	// Formate banner file
-	asciiart.BannerFmtTT(reader)
+	asciiart.BannerFmt(reader)
 
 	// Handle "" && "\n"
 	if args[1] == "" {
