@@ -56,7 +56,7 @@ func AsciiPrep(s string) {
 			continue
 		}
 		if slice[0] == 10 {
-			if words[i+1][0] == 10 {
+			if words[i-1][0] == 10 {
 				Text = append(Text, []byte("\n"))
 				Indx = nil
 				continue
