@@ -2,6 +2,7 @@ package main
 
 import (
 	"asciiart/asciiart"
+	"flag"
 	"fmt"
 	"io/fs"
 	"os"
@@ -9,17 +10,17 @@ import (
 
 func main() {
 
-	// TODO: CMD line args handling
+	// CMD line args handling
 	args := os.Args
-	// if len(args) != 3 {
-	// 	fmt.Println("Usage: go run . [STRING] [BANNER]")
-	// 	fmt.Println("EX: go run . something standard")
-	// 	return
-	// }
-	// bannerFile := args[2] + ".txt"
+	if len(args) != 3 {
+		fmt.Println("Usage: go run . [STRING] [BANNER]")
+		fmt.Println("EX: go run . something standard")
+		return
+	}
+	bannerFile := args[2] + ".txt"
 
 	// Testing banner
-	reader, err := fs.ReadFile(os.DirFS("./banners"), "standard.txt")
+	reader, err := fs.ReadFile(os.DirFS("./banners"), bannerFile)
 	if err != nil {
 		fmt.Println("Error Opening File")
 	}
@@ -36,7 +37,13 @@ func main() {
 	}
 
 	// Test string preparation, formating and printing
-	s := args[1]
+	var s string
+	if flag.NFlag() == 0 {
+		s = args[1]
+	} else {
+		s = args[3]
+	}
+
 	asciiart.AsciiPrep(s)
 
 }
