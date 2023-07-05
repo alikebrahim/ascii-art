@@ -23,6 +23,7 @@ func main() {
 	reader, err := fs.ReadFile(os.DirFS("./banners"), bannerFile)
 	if err != nil {
 		fmt.Println("Error Opening File")
+		return
 	}
 
 	// Formate banner file

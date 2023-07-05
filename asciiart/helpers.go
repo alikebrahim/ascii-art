@@ -129,7 +129,7 @@ func Stob(s string) [][]byte {
 				continue
 			}
 		}
-		if item == 'n' {
+		if i-1 >= 0 && item == 'n' {
 			if s[i-1] == '\\' {
 				continue
 			}
