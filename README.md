@@ -11,7 +11,16 @@ Try:
 
 > go run . -j center [TEXT] [BANNER]
 
+
+Available Banners:
+
+- standard
+- shadow
+- thinkertoy
+- banner-3D
+
 WORK IN PROGRESS:
+
 + Justify text
 + Color text
 + Output text to file
