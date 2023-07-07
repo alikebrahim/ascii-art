@@ -1,4 +1,4 @@
-# ASCII ART **UNDER CONSTRUCTION**
+# ASCII ART \*\*UNDER CONSTRUCTION\*\*
 
 This is a simple implementation of an ascii art CLI application using golang. It's a learning process.
 
