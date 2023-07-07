@@ -2,22 +2,29 @@ package main
 
 import (
 	"asciiart/asciiart"
+	"bytes"
 	"flag"
 	"fmt"
 	"io/fs"
 	"os"
+	"os/exec"
+	"strconv"
 )
 
 func main() {
+	flag.Parse()
+	//fmt.Printf("Justify: %v ** Color: %v ** Output: %v\n", asciiart.Justify, asciiart.Color, asciiart.Output)
 
 	// CMD line args handling
-	args := os.Args
-	if len(args) != 3 {
+	args := os.Args[1:]
+	lArgs := len(args)
+	if lArgs < 2 {
 		fmt.Println("Usage: go run . [STRING] [BANNER]")
 		fmt.Println("EX: go run . something standard")
 		return
 	}
-	bannerFile := args[2] + ".txt"
+
+	bannerFile := args[lArgs-1] + ".txt"
 
 	// Testing banner
 	reader, err := fs.ReadFile(os.DirFS("./banners"), bannerFile)
@@ -38,11 +45,31 @@ func main() {
 	}
 
 	// Test string preparation, formating and printing
-	var s string
-	if flag.NFlag() == 0 {
-		s = args[1]
-	} else {
-		s = args[3]
+	s := args[lArgs-2]
+
+	if asciiart.Justify != "" || asciiart.Justify != "left" {
+		if len(args) != 4 {
+			fmt.Println("Usage: go run . [FLAG] [OPTION] [STRING] [BANNER]")
+			fmt.Println("EX: go run . -j center something standard")
+			return
+		}
+		// Get terminal width
+		cmd := exec.Command("tput", "cols")
+		cmd.Stdin = os.Stdin
+		out, err := cmd.Output()
+		if err != nil {
+			fmt.Println("Error getting terminal width")
+			return
+		}
+		n := bytes.Split(out, []byte("\n"))[0]
+		width, err := strconv.Atoi(string(n))
+		if err != nil {
+			fmt.Println("Error getting terminal width")
+			return
+		}
+		//os.Exit(1)
+		asciiart.AsciiPrepJustify(s, width)
+		return
 	}
 
 	asciiart.AsciiPrep(s)

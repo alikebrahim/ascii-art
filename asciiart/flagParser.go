@@ -8,10 +8,10 @@ var Output bool
 
 func init() {
 	const (
-		defaultJustify = "left"
+		defaultJustify = ""
 		usageJustify   = "Justify text"
 
-		defaultColor   = "white"
+		defaultColor   = ""
 		usageColor     = "Color text"
 
 		defaultOutput  = false

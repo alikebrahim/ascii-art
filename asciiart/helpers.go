@@ -48,7 +48,7 @@ func ReformatTT(chars [][]byte) []byte {
 
 // Main text preparation and printing function
 func AsciiPrep(s string) {
-	words := Stob(s)
+	words := StringToBytes(s)
 	for i, slice := range words {
 		if slice[0] == 10 && i == 0 {
 			Text = append(Text, []byte("\n"))
@@ -112,20 +112,20 @@ func Printer(Text [][]byte) {
 }
 
 // Convert string input to [][]byte
-func Stob(s string) [][]byte {
-	var bslice [][]byte
-	var bline []byte
+func StringToBytes(s string) [][]byte {
+	var text [][]byte
+	var line []byte
 	for i, item := range s {
 		if item == '\\' {
 			if s[i+1] == 'n' {
-				if bline != nil {
+				if line != nil {
 
-					bslice = append(bslice, bline)
+					text = append(text, line)
 				}
-				bline = nil
-				bline = append(bline, byte(10))
-				bslice = append(bslice, bline)
-				bline = nil
+				line = nil
+				line = append(line, byte(10))
+				text = append(text, line)
+				line = nil
 				continue
 			}
 		}
@@ -134,11 +134,11 @@ func Stob(s string) [][]byte {
 				continue
 			}
 		}
-		bline = append(bline, byte(item))
+		line = append(line, byte(item))
 	}
-	if bline != nil {
+	if line != nil {
 
-		bslice = append(bslice, bline)
+		text = append(text, line)
 	}
-	return bslice
+	return text
 }
