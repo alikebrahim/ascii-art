@@ -2,14 +2,14 @@ package asciiart
 
 import "flag"
 
-var Justify string
+var Align string
 var Color string
 var Output bool
 
 func init() {
 	const (
-		defaultJustify = ""
-		usageJustify   = "Justify text"
+		defaultAlign = ""
+		usageAlign   = "Align text"
 
 		defaultColor   = ""
 		usageColor     = "Color text"
@@ -18,8 +18,8 @@ func init() {
 		usageOutput    = "Output text"
 	)
 	
-	flag.StringVar(&Justify, "justify", defaultJustify, usageJustify)
-	flag.StringVar(&Justify, "j", defaultJustify, usageJustify+" shorthand")
+	flag.StringVar(&Align, "align", defaultAlign, usageAlign)
+	flag.StringVar(&Align, "a", defaultAlign, usageAlign+" shorthand")
 
 	flag.StringVar(&Color, "color", defaultColor, usageColor)
 	flag.StringVar(&Color, "c", defaultColor, usageColor+" shorthand")

@@ -47,12 +47,17 @@ func main() {
 	// Test string preparation, formating and printing
 	s := args[lArgs-2]
 
-	if asciiart.Justify != "" || asciiart.Justify != "left" {
-		if len(args) != 4 {
-			fmt.Println("Usage: go run . [FLAG] [OPTION] [STRING] [BANNER]")
-			fmt.Println("EX: go run . -j center something standard")
-			return
-		}
+	if lArgs > 2 {
+		if asciiart.Align != ""{
+			if len(args) != 4 {
+				fmt.Println("Usage: go run . [FLAG] [OPTION] [STRING] [BANNER]")
+				fmt.Println("EX: go run . -j center something standard")
+				return
+			} 
+
+	}
+
+
 		// Get terminal width
 		cmd := exec.Command("tput", "cols")
 		cmd.Stdin = os.Stdin
@@ -67,9 +72,21 @@ func main() {
 			fmt.Println("Error getting terminal width")
 			return
 		}
-		//os.Exit(1)
-		asciiart.AsciiPrepJustify(s, width)
-		return
+		if asciiart.Align == "justify" {
+			asciiart.AsciiPrepJustify(s, width)
+			return
+		} else if asciiart.Align == "right" || asciiart.Align == "center" {
+
+			asciiart.AsciiPrepCR(s, width)
+			return
+		} else if asciiart.Align == "left" {
+			asciiart.AsciiPrep(s)
+			return
+		} else {
+			fmt.Println("Error: flag not available!")
+				fmt.Println("Available flags: left, center, right and justify")
+				return
+		}
 	}
 
 	asciiart.AsciiPrep(s)

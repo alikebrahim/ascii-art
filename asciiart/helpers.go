@@ -95,6 +95,10 @@ func LineFmt(indx []int) {
 	for i := 0; i < 8; i++ {
 		var line []byte
 		for _, item := range indx {
+			if item == 3200 {
+				line = append(line, byte(' '))
+				continue
+			}
 			slice := Chars[item+i]
 			line = append(line, slice...)
 		}
