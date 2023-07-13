@@ -49,9 +49,9 @@ func main() {
 
 	if lArgs > 2 {
 		if asciiart.Align != ""{
-			if len(args) != 4 {
+			if len(args) != 3 {
 				fmt.Println("Usage: go run . [FLAG] [OPTION] [STRING] [BANNER]")
-				fmt.Println("EX: go run . -j center something standard")
+				fmt.Println("EX: go run . -a center something standard")
 				return
 			} 
 
@@ -83,9 +83,9 @@ func main() {
 			asciiart.AsciiPrep(s)
 			return
 		} else {
-			fmt.Println("Error: flag not available!")
-				fmt.Println("Available flags: left, center, right and justify")
-				return
+			fmt.Println("Usage: go run .  [OPTION] [STRING] [BANNER]")
+			fmt.Println("Example: go run . --align=right  something  standard")
+			return
 		}
 	}
 
