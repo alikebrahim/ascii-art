@@ -61,14 +61,13 @@ func main() {
 		s = args[lArgs-2]
 	}
 
-	if lArgs > 2 {
-		if asciiart.Align != "" {
-			if len(args) != 3 {
-				fmt.Println("Usage: go run . [FLAG] [OPTION] [STRING] [BANNER]")
-				fmt.Println("EX: go run . -a center something standard")
-				return
-			}
+	// Flag format issue needs to be fixed: only --flag format should be accepted
+	if asciiart.Align != "" {
 
+		if args[0][:7] != "--align" {
+			fmt.Println("Usage: go run . [FLAG] [STRING] [BANNER]")
+			fmt.Println("EX: go run . --align=right something standard")
+			return
 		}
 
 		// Get terminal width
@@ -89,7 +88,6 @@ func main() {
 			asciiart.AsciiPrepJustify(s, width)
 			return
 		} else if asciiart.Align == "right" || asciiart.Align == "center" {
-
 			asciiart.AsciiPrepCR(s, width)
 			return
 		} else if asciiart.Align == "left" {
