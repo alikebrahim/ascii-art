@@ -24,7 +24,15 @@ func main() {
 		return
 	}
 
-	bannerFile := args[lArgs-1] + ".txt"
+	var bannerFile string
+
+	if lArgs == 2 {
+		if args[lArgs-1] != "standard" || args[lArgs-1] != "thinkertoy" || args[lArgs-1] != "shadow" || args[lArgs-1] != "banner-3D" {
+			bannerFile = "standard.txt"
+		}
+	} else {
+		bannerFile = args[lArgs-1] + ".txt"
+	}
 
 	// Testing banner
 	reader, err := fs.ReadFile(os.DirFS("./banners"), bannerFile)
@@ -45,18 +53,23 @@ func main() {
 	}
 
 	// Test string preparation, formating and printing
-	s := args[lArgs-2]
+	var s string
+	if lArgs == 2 {
+		s = args[lArgs-1]
+	} else {
+
+		s = args[lArgs-2]
+	}
 
 	if lArgs > 2 {
-		if asciiart.Align != ""{
+		if asciiart.Align != "" {
 			if len(args) != 3 {
 				fmt.Println("Usage: go run . [FLAG] [OPTION] [STRING] [BANNER]")
 				fmt.Println("EX: go run . -a center something standard")
 				return
-			} 
+			}
 
-	}
-
+		}
 
 		// Get terminal width
 		cmd := exec.Command("tput", "cols")
