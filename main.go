@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -64,7 +65,11 @@ func main() {
 	// Flag format issue needs to be fixed: only --flag format should be accepted
 	if asciiart.Align != "" {
 
-		if args[0][:7] != "--align" {
+		if len(args[0]) < 8 || args[0][:8] != "--align=" {
+			fmt.Println("Usage: go run . [FLAG] [STRING] [BANNER]")
+			fmt.Println("EX: go run . --align=right something standard")
+			return
+		} else if args[0][:8] != "--align=" {
 			fmt.Println("Usage: go run . [FLAG] [STRING] [BANNER]")
 			fmt.Println("EX: go run . --align=right something standard")
 			return
@@ -85,7 +90,15 @@ func main() {
 			return
 		}
 		if asciiart.Align == "justify" {
-			asciiart.AsciiPrepJustify(s, width)
+			splitS := strings.Split(s, "\\n")
+			// fmt.Println(splitS, len(splitS))
+			// fmt.Printf("%T\n",splitS[0])
+			// return
+
+			for _, item := range splitS {
+
+				asciiart.AsciiPrepJustify(item, width)
+			}
 			return
 		} else if asciiart.Align == "right" || asciiart.Align == "center" {
 			asciiart.AsciiPrepCR(s, width)
