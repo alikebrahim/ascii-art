@@ -5,11 +5,11 @@ This is a simple implementation of an ascii art CLI application using golang. It
 Basic Usage:
 > go run . [TEXT] [BANNER]
 
-The application currently supports text aligment to either center and right.
+The application currently supports text aligment: center, right and justify.
 
 Try:
 
-> go run . -j center [TEXT] [BANNER]
+> go run . --align=center [TEXT] [BANNER]
 
 
 Available Banners:
@@ -21,8 +21,6 @@ Available Banners:
 
 WORK IN PROGRESS:
 
-+ Justify text
 + Color text
 + Output text to file
-
 
