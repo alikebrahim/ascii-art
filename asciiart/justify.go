@@ -79,8 +79,11 @@ func AsciiPrepJustify(s string, w int) {
 	Text = nil
 	w_llen := w - llen
 	wordsn := wordsNum - 1
-
 	for i, slice := range splitwords {
+		if len(slice) == 0 {
+			Indx = append(Indx, 0)
+			continue
+		}
 		if slice[0] == 10 && i == 0 {
 			Text = append(Text, []byte("\n"))
 			Indx = nil
@@ -116,7 +119,6 @@ func AsciiPrepJustify(s string, w int) {
 	}
 	Printer(Text)
 
-
 }
 
 func Count(s string, w int) (llen int) {
@@ -129,6 +131,9 @@ func Count(s string, w int) (llen int) {
 	splitwords := bytes.Split(edtwords, []byte(" "))
 
 	for i, slice := range splitwords {
+		if len(slice) == 0 {
+			continue
+		}
 
 		if slice[0] == 10 && i == 0 {
 			Text = append(Text, []byte("\n"))
